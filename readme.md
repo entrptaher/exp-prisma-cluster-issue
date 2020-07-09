@@ -34,7 +34,11 @@ yarn loadtest -c 10 --rps 1000 http://localhost:3000/create\?length\=100000
 
 # to non-cluster
 yarn loadtest -c 10 --rps 1000 http://localhost:3001/create\?length\=100000
+
+# create 50 requests per second, with 2mb data (total 100mb thoughtput)
+yarn loadtest -c 10 --rps 50 http://localhost:3000/create\?length\=2000000
 ```
+
 
 You will get the process id and post id as response,
 
