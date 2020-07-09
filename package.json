@@ -1,8 +1,13 @@
 {
   "name": "simple-express-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "repository": "git@github.com:entrptaher/exp-prisma-cluster-issue.git",
   "license": "MIT",
+  "author": "Md Abu Taher <entrptaher@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "@prisma/cli": "^2.2.0",
     "@prisma/client": "^2.1.0",
@@ -10,10 +15,5 @@
     "express": "^4.17.1",
     "loadtest": "^5.0.4",
     "minimist": "^1.2.5"
-  },
-  "repository": "git@github.com:entrptaher/exp-prisma-cluster-issue.git",
-  "author": "Md Abu Taher <entrptaher@gmail.com>",
-  "scripts": {
-    "start": "node index.js"
   }
 }
