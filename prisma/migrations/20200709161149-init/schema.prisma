@@ -1,0 +1,15 @@
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id   Int     @id @default(autoincrement())
+  anotherId String? @unique
+  data String?
+  json Json?
+}

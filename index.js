@@ -5,10 +5,11 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 
 const argv = require('minimist')(process.argv.slice(2));
-const port = process.env.PORT || argv.port || 3000;
+const clusterPort = 3000;
+const nonClusterPort = 3001;
 const forks = process.env.FORKS || argv.forks || os.cpus().length;
 
-async function run() {
+async function run(cluster = false) {
   const app = express();
   const prisma = new PrismaClient();
 
@@ -19,7 +20,7 @@ async function run() {
       data: { data: rawData, json: { rawData } },
     });
     const total = await prisma.post.count();
-    res.send({ pid: process.pid, post, total });
+    res.send({ pid: process.pid, id: post.id, total });
   });
 
   app.get('/load', async (req, res) => {
@@ -34,14 +35,17 @@ async function run() {
       res.send({ pid: process.pid, result });
     } else {
       await delay(1000);
-      console.log(process.pid);
       const all = await prisma.post.count();
       res.send({ pid: process.pid, all });
     }
   });
 
+  const port = cluster ? clusterPort : nonClusterPort;
+  
   app.listen(port, () => {
-    console.log(`PID: ${process.pid}, Listening at ${port}`);
+    console.log(
+      `Cluster: ${cluster}, PID: ${process.pid}, Listening at ${port}`
+    );
   });
 }
 
@@ -49,6 +53,7 @@ if (cluster.isMaster) {
   for (let i = 0; i < forks; i++) {
     cluster.fork();
   }
+  run(false);
 } else {
-  run();
+  run(true);
 }
